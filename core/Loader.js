@@ -33,7 +33,7 @@ const Waterfall = function(promises) {
 // Load an array of scripts in order
 function LoadScriptInOrder(arrayOfJs) {
     const promises = arrayOfJs.map(function(url) {
-        return loadScript(url);
+        return LoadScript(url);
     });
-    return waterfall(promises);
+    return Waterfall(promises);
 };
