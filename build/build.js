@@ -1,14 +1,3 @@
-class Engine {
-    constructor() {
-        this.canvas = document.createElement("canvas");
-        this.context = this.canvas.getContext('2d');
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        document.body.appendChild(this.canvas);
-        Engine.Instance = this;
-        console.log(Engine.Instance);
-    }
-}
 class Circle {
     constructor(pos, radius, color = "black", draggable = false) {
         this.position = pos;
@@ -22,6 +11,11 @@ class Circle {
         }
     }
     update() {
+        if (this.velocity.x !== 0 && this.velocity.y !== 0) {
+            this.wallCollision(window.innerWidth, window.innerHeight);
+            this.position.x += this.velocity.x;
+            this.position.y += this.velocity.y;
+        }
     }
     draw() {
         Engine.Instance.context.beginPath();
@@ -60,7 +54,6 @@ class Circle {
     }
     initEvents() {
         const circle = this;
-        console.log("events are initing");
         document.addEventListener("mouseup", function (e) {
             circle.isDragging = false;
         });
@@ -71,7 +64,6 @@ class Circle {
             circle.position.y = e.pageY;
         });
         document.addEventListener("mousedown", function (e) {
-            console.log("mouse down");
             if (new Vector2(e.pageX, e.pageY).distanceTo(circle.position) <= circle.radius) {
                 circle.isDragging = true;
             }
@@ -575,6 +567,20 @@ class Vector2d {
         this.x = (a.x + b.y) / 2;
         this.y = (a.y + b.y) / 2;
         this.z = (a.z + b.z) / 2;
+    }
+}
+class Engine {
+    constructor() {
+        this.canvas = document.createElement("canvas");
+        this.context = this.canvas.getContext('2d');
+        document.body.style.margin = "0px";
+        document.body.style.overflowY = "hidden";
+        this.canvas.style.margin = '0px';
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        document.body.appendChild(this.canvas);
+        Engine.Instance = this;
+        console.log(Engine.Instance);
     }
 }
 //# sourceMappingURL=build.js.map

@@ -20,7 +20,12 @@ class Circle implements Drawable, VelocityObject{
     }
 
     public update() {
+        if (this.velocity.x !== 0 && this.velocity.y !== 0) {
+            this.wallCollision(window.innerWidth, window.innerHeight);
 
+            this.position.x += this.velocity.x;
+            this.position.y += this.velocity.y;
+        }
     }
 
     public draw() {

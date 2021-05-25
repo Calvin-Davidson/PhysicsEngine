@@ -6,6 +6,9 @@ class Engine {
         this.canvas = document.createElement("canvas");
         this.context = this.canvas.getContext('2d');
 
+        document.body.style.margin = "0px";
+        document.body.style.overflowY = "hidden";
+        this.canvas.style.margin = '0px';
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
 
@@ -13,6 +16,11 @@ class Engine {
         Engine.Instance = this;
 
         console.log(Engine.Instance);
+
+        document.addEventListener("resize", () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        });
     }
 
     public static Instance : Engine;
