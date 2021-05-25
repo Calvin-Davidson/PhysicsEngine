@@ -1,14 +1,18 @@
 class polygon {
+    private points : Vector2[];
+    color : string;
+    stokeStyle : string;
+
     constructor(points, color = "blue") {
         this.points = points;
         this.color = color;
-        this.stokestyle = "black"
+        this.stokeStyle = "black"
     }
 
     draw(context) {
         context.beginPath();
         context.fillStyle = this.color;
-        context.strokeStyle = this.stokestyle;
+        context.strokeStyle = this.stokeStyle;
         context.moveTo(this.points[0].x, this.points[0].y);
 
         for (let i = 0; i < this.points.length; i++) {

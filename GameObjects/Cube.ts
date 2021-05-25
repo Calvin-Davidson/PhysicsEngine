@@ -1,58 +1,59 @@
-class Cube {
+class Cube implements Drawable, VelocityObject {
+    position: Vector2;
+    width : number;
+    height : number;
+    color : string;
+    draggable : boolean;
+    isDragging : boolean;
+    velocity : Vector2;
 
-    constructor(pos, width, height, color = "black", draggable = false) {
+    constructor(pos : Vector2, width, height, color = "black", draggable = false) {
+        this.position = pos;
         this.position = pos;
         this.width = width;
         this.height = height;
         this.color = color;
         this.draggable = draggable
         this.isDragging = false;
-        this.VelSpeed = 0;
+        this.velocity = new Vector2(0,0);
 
         if (this.draggable) {
-            this.#initEvents();
+            this.initEvents();
         }
     }
 
-    update() {
-        if (this.VelSpeed !== 0) {
-            for (let i = 0; i < this.VelSpeed; i++) {
-                let X = this.position.x + this.VelX;
-                let Y = this.position.y + this.VelY;
+    public update() {
 
-                this.position = new Vector2(X, Y);
-            }
-        }
     }
 
-    draw(context) {
+    public draw() {
         //hier komt de code om een cirkel te tekenen
-        context.beginPath();
+        Engine.Instance.context.beginPath();
 
-        context.fillStyle = this.color;
-        context.strokeStyle = this.color;
+        Engine.Instance.context.fillStyle = this.color;
+        Engine.Instance.context.strokeStyle = this.color;
 
-        context.fillRect(this.position.x-this.width/2, this.position.y-this.height/2, this.width, this.height);
-        context.stroke();
-        context.fill();
+        Engine.Instance.context.fillRect(this.position.x-this.width/2, this.position.y-this.height/2, this.width, this.height);
+        Engine.Instance.context.stroke();
+        Engine.Instance.context.fill();
 
-
-        context.closePath();
+        Engine.Instance.context.closePath();
     }
 
 
-    wallCollision(width, height) {
+    public wallCollision(width, height) {
         if (this.position.x - this.width / 2 <= 0)
-            this.VelX = Math.abs(this.VelX)
+            this.velocity.x = Math.abs(this.velocity.x)
         if (this.position.x + this.width / 2 >= width)
-            this.VelX = -Math.abs(this.VelX);
+            this.velocity.x = -Math.abs(this.velocity.x);
+
         if (this.position.y - this.height / 2 <= 0)
-            this.VelY = Math.abs(this.VelY);
+            this.velocity.y = Math.abs(this.velocity.y);
         if (this.position.y + this.height / 2 >= height)
-            this.VelY = -Math.abs(this.VelY);
+            this.velocity.y = -Math.abs(this.velocity.y);
     }
 
-    CircleBorder(radius, points, offset = 0) {
+    public CircleBorder(radius, points, offset = 0) {
         let Positions = [];
 
         let slice = 2 * Math.PI / points;
@@ -69,7 +70,7 @@ class Cube {
         return Positions;
     }
 
-    #initEvents() {
+    private initEvents() {
         const cube = this;
         document.addEventListener("mouseup", function (e) {
             cube.isDragging = false;

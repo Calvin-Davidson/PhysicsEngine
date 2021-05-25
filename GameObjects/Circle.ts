@@ -1,4 +1,10 @@
-class Circle {
+class Circle implements Drawable, VelocityObject{
+    position: Vector2;
+    radius : number;
+    color : string;
+    draggable : boolean;
+    isDragging : boolean;
+    velocity : Vector2;
 
     constructor(pos, radius, color = "black", draggable = false) {
         this.position = pos;
@@ -6,57 +12,48 @@ class Circle {
         this.color = color;
         this.draggable = draggable
         this.isDragging = false;
-        this.VelSpeed = 0;
+        this.velocity = new Vector2(0,0);
 
         if (this.draggable) {
-            this.#initEvents();
+            this.initEvents();
         }
     }
 
-    update() {
-        if (this.VelSpeed !== 0) {
-            for (let i = 0; i < this.VelSpeed; i++) {
-                let X = this.position.x + this.VelX;
-                let Y = this.position.y + this.VelY;
+    public update() {
 
-                this.position = new Vector2(X, Y);
-            }
-        }
     }
 
-    draw(context) {
-        //hier komt de code om een cirkel te tekenen
-        context.beginPath();
+    public draw() {
+        Engine.Instance.context.beginPath();
 
-        context.fillStyle = this.color;
-        context.strokeStyle = this.color;
+        Engine.Instance.context.fillStyle = this.color;
+        Engine.Instance.context.strokeStyle = this.color;
 
-        context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
-        context.stroke();
-        context.fill();
+        Engine.Instance.context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
+        Engine.Instance.context.stroke();
+        Engine.Instance.context.fill();
 
 
-        context.closePath();
+        Engine.Instance.context.closePath();
     }
 
 
-    wallCollision(width, height) {
-        // als hij buiten de muur zit.
+    public wallCollision(width, height) {
         if (this.position.x - this.radius <= 0) {
-            this.VelX = Math.abs(this.VelX);
+            this.velocity.x = Math.abs(this.velocity.x);
         }
         if (this.position.x + this.radius >= width) {
-            this.VelX = -Math.abs(this.VelX);
+            this.velocity.x = -Math.abs(this.velocity.x);
         }
         if (this.position.y - this.radius <= 0) {
-            this.VelY = Math.abs(this.VelY);
+            this.velocity.y = Math.abs(this.velocity.y);
         }
         if (this.position.y + this.radius >= height) {
-            this.VelY = -Math.abs(this.VelY);
+            this.velocity.y = -Math.abs(this.velocity.y);
         }
     }
 
-    CircleBorder(xCenter, yCenter, radius, points, offset = 0) {
+    public CircleBorder(xCenter, yCenter, radius, points, offset = 0) {
         let Positions = [];
 
         let slice = 2 * Math.PI / points;
@@ -73,7 +70,7 @@ class Circle {
         return Positions;
     }
 
-    #initEvents() {
+    private initEvents() {
         const circle = this;
         document.addEventListener("mouseup", function (e) {
             circle.isDragging = false;
