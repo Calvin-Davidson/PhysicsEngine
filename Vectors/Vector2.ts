@@ -106,6 +106,13 @@ class Vector2 {
         this.y = (a.y + b.y) / 2;
     }
 
+
+    rotate(angle) {
+        this.x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
+        this.y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
+        return this;
+    }
+
     ResolveViaProjection(a : Vector2, b : Vector2) : Vector2 {
         let perpendicular = new Vector2(0,0);
         perpendicular.perpendicular(b);

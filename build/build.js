@@ -1,14 +1,3 @@
-class Engine {
-    constructor() {
-        this.canvas = document.createElement("canvas");
-        this.context = this.canvas.getContext('2d');
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        document.body.appendChild(this.canvas);
-        Engine.Instance = this;
-        console.log(Engine.Instance);
-    }
-}
 class Circle {
     constructor(pos, radius, color = "black", draggable = false) {
         this.position = pos;
@@ -22,6 +11,11 @@ class Circle {
         }
     }
     update() {
+        if (this.velocity.x !== 0 && this.velocity.y !== 0) {
+            this.wallCollision(window.innerWidth, window.innerHeight);
+            this.position.x += this.velocity.x;
+            this.position.y += this.velocity.y;
+        }
     }
     draw() {
         Engine.Instance.context.beginPath();
@@ -60,7 +54,6 @@ class Circle {
     }
     initEvents() {
         const circle = this;
-        console.log("events are initing");
         document.addEventListener("mouseup", function (e) {
             circle.isDragging = false;
         });
@@ -71,11 +64,33 @@ class Circle {
             circle.position.y = e.pageY;
         });
         document.addEventListener("mousedown", function (e) {
-            console.log("mouse down");
             if (new Vector2(e.pageX, e.pageY).distanceTo(circle.position) <= circle.radius) {
                 circle.isDragging = true;
             }
         });
+    }
+    resolveCollision(circle2) {
+        const circle1 = this;
+        const xVelocityDiff = circle1.velocity.x - circle2.velocity.x;
+        const yVelocityDiff = circle1.velocity.y - circle2.velocity.y;
+        const xDist = circle2.position.x - circle1.position.x;
+        const yDist = circle2.position.y - circle1.position.y;
+        if (xVelocityDiff * xDist + yVelocityDiff * yDist >= 0) {
+            const angle = -Math.atan2(circle2.position.y - circle1.position.y, circle2.position.x - circle1.position.x);
+            const u1 = new Vector2(circle1.velocity.x, circle1.velocity.y).rotate(angle);
+            const u2 = new Vector2(circle2.velocity.x, circle2.velocity.y).rotate(angle);
+            console.log(u1);
+            const v1 = { x: u2.x, y: u1.y };
+            const v2 = { x: u1.x, y: u2.y };
+            const vFinal1 = new Vector2(v1.x, v1.y).rotate(angle);
+            const vFinal2 = new Vector2(v2.x, v2.y).rotate(angle);
+            console.log(vFinal1);
+            console.log(vFinal2);
+            circle1.velocity.x = vFinal1.x;
+            circle1.velocity.y = vFinal1.y;
+            circle2.velocity.x = vFinal2.x;
+            circle2.velocity.y = vFinal2.y;
+        }
     }
 }
 class Cube {
@@ -515,8 +530,13 @@ class Vector2 {
         this.x = (a.x + b.y) / 2;
         this.y = (a.y + b.y) / 2;
     }
+    rotate(angle) {
+        this.x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
+        this.y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
+        return this;
+    }
 }
-class Vector2d {
+class Vector3 {
     constructor(x, y, z) {
         this.x = x;
         this.y = y;
@@ -575,6 +595,24 @@ class Vector2d {
         this.x = (a.x + b.y) / 2;
         this.y = (a.y + b.y) / 2;
         this.z = (a.z + b.z) / 2;
+    }
+}
+class Engine {
+    constructor() {
+        this.canvas = document.createElement("canvas");
+        this.context = this.canvas.getContext('2d');
+        document.body.style.margin = "0px";
+        document.body.style.overflowY = "hidden";
+        this.canvas.style.margin = '0px';
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        document.body.appendChild(this.canvas);
+        Engine.Instance = this;
+        console.log(Engine.Instance);
+        document.addEventListener("resize", () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        });
     }
 }
 //# sourceMappingURL=build.js.map

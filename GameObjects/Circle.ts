@@ -1,18 +1,18 @@
-class Circle implements Drawable, VelocityObject{
+class Circle implements Drawable, VelocityObject {
     position: Vector2;
-    radius : number;
-    color : string;
-    draggable : boolean;
-    isDragging : boolean;
-    velocity : Vector2;
+    radius: number;
+    color: string;
+    draggable: boolean;
+    isDragging: boolean;
+    velocity: Vector2;
 
-    constructor(pos, radius, color = "black", draggable = false) {
+    constructor(pos : Vector2, radius, color = "black", draggable = false) {
         this.position = pos;
         this.radius = radius;
         this.color = color;
         this.draggable = draggable
         this.isDragging = false;
-        this.velocity = new Vector2(0,0);
+        this.velocity = new Vector2(0, 0);
 
         if (this.draggable) {
             this.initEvents();
@@ -20,7 +20,12 @@ class Circle implements Drawable, VelocityObject{
     }
 
     public update() {
+        if (this.velocity.x !== 0 && this.velocity.y !== 0) {
+            this.wallCollision(window.innerWidth, window.innerHeight);
 
+            this.position.x += this.velocity.x;
+            this.position.y += this.velocity.y;
+        }
     }
 
     public draw() {
@@ -88,6 +93,44 @@ class Circle implements Drawable, VelocityObject{
             }
         });
 
+    }
+
+    resolveCollision(circle2: Circle) {
+        const circle1 = this;
+        const xVelocityDiff = circle1.velocity.x - circle2.velocity.x;
+        const yVelocityDiff = circle1.velocity.y - circle2.velocity.y;
+
+        const xDist = circle2.position.x - circle1.position.x;
+        const yDist = circle2.position.y - circle1.position.y;
+
+        // Prevent accidental overlap of circle1s
+        if (xVelocityDiff * xDist + yVelocityDiff * yDist >= 0) {
+
+            // Verkrijg de hoek tussen de 2 circles.
+            const angle = -Math.atan2(circle2.position.y - circle1.position.y, circle2.position.x - circle1.position.x);
+
+            // Rotate beide circles met de angle tussen ze.
+            const u1 = new Vector2(circle1.velocity.x, circle1.velocity.y ).rotate(angle);
+            const u2 = new Vector2(circle2.velocity.x, circle2.velocity.y).rotate(angle);
+            console.log(u1)
+
+            // Flip de 2 velocities.
+            const v1 = {x: u2.x, y: u1.y};
+            const v2 = {x: u1.x, y: u2.y};
+
+            // Rotate de velocities terug.
+            const vFinal1 = new Vector2(v1.x, v1.y).rotate(angle);
+            const vFinal2 = new Vector2(v2.x, v2.y).rotate(angle);
+            console.log(vFinal1)
+            console.log(vFinal2)
+
+            // Apply velocities
+            circle1.velocity.x = vFinal1.x;
+            circle1.velocity.y = vFinal1.y;
+
+            circle2.velocity.x = vFinal2.x;
+            circle2.velocity.y = vFinal2.y;
+        }
     }
 
 }
