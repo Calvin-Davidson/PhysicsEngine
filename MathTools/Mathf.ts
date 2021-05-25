@@ -98,7 +98,7 @@ class Mathf {
     }
 
     static Sign(value) {
-        return Math.sign(value);
+        return (value >= 0) ? 1 : -1;
     }
 
     static Sin(value) {
