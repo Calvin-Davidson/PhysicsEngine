@@ -1,4 +1,4 @@
-class Vector2d {
+class Vector3 {
     x: number;
     y: number;
     z: number;

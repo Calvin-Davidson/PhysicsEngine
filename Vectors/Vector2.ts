@@ -104,4 +104,10 @@ class Vector2 {
         this.x = (a.x + b.y) / 2;
         this.y = (a.y + b.y) / 2;
     }
+
+    rotate(angle) {
+        this.x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
+        this.y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
+        return this;
+    }
 }
