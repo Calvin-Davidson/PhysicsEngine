@@ -6,7 +6,7 @@ class Circle implements Drawable, VelocityObject {
     isDragging: boolean;
     velocity: Vector2;
 
-    constructor(pos : Vector2, radius, color = "black", draggable = false) {
+    constructor(pos: Vector2, radius, color = "black", draggable = false) {
         this.position = pos;
         this.radius = radius;
         this.color = color;
@@ -95,8 +95,14 @@ class Circle implements Drawable, VelocityObject {
 
     }
 
-    resolveCollision(circle2: Circle) {
-        const circle1 = this;
+    static resolveCollision(circle1, circle2) {
+        function rotate(velocity, angle) {
+            return {
+                x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
+                y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle)
+            };
+        }
+
         const xVelocityDiff = circle1.velocity.x - circle2.velocity.x;
         const yVelocityDiff = circle1.velocity.y - circle2.velocity.y;
 
@@ -110,19 +116,17 @@ class Circle implements Drawable, VelocityObject {
             const angle = -Math.atan2(circle2.position.y - circle1.position.y, circle2.position.x - circle1.position.x);
 
             // Rotate beide circles met de angle tussen ze.
-            const u1 = new Vector2(circle1.velocity.x, circle1.velocity.y ).rotate(angle);
-            const u2 = new Vector2(circle2.velocity.x, circle2.velocity.y).rotate(angle);
-            console.log(u1)
+            const u1 = rotate(circle1.velocity, angle);
+            const u2 = rotate(circle2.velocity, angle);
 
             // Flip de 2 velocities.
             const v1 = {x: u2.x, y: u1.y};
             const v2 = {x: u1.x, y: u2.y};
 
             // Rotate de velocities terug.
-            const vFinal1 = new Vector2(v1.x, v1.y).rotate(angle);
-            const vFinal2 = new Vector2(v2.x, v2.y).rotate(angle);
-            console.log(vFinal1)
-            console.log(vFinal2)
+            const vFinal1 = rotate(v1, -angle);
+            const vFinal2 = rotate(v2, -angle);
+
 
             // Apply velocities
             circle1.velocity.x = vFinal1.x;
@@ -132,5 +136,4 @@ class Circle implements Drawable, VelocityObject {
             circle2.velocity.y = vFinal2.y;
         }
     }
-
 }
