@@ -92,6 +92,7 @@ class Vector2 {
 
     perpendicular(vector) {
         this.x = -vector.y;
+        // noinspection JSSuspiciousNameCombination
         this.y = vector.x;
     }
 
@@ -105,9 +106,26 @@ class Vector2 {
         this.y = (a.y + b.y) / 2;
     }
 
+
     rotate(angle) {
         this.x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
         this.y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
         return this;
+    }
+
+    ResolveViaProjection(a : Vector2, b : Vector2) : Vector2 {
+        let perpendicular = new Vector2(0,0);
+        perpendicular.perpendicular(b);
+
+        let length = a.dot(b) / (b.magnitude * b.magnitude);
+        let length2 = a.dot(perpendicular) / (b.magnitude * b.magnitude);
+        b.scalMul(length);
+        perpendicular.scalMul(length2);
+
+        let result : Vector2 = new Vector2(0,0);
+        result.x = b.x + perpendicular.x;
+        result.y = b.y + perpendicular.y;
+
+        return result;
     }
 }

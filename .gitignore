@@ -8,8 +8,8 @@ JetBrains*
 [Aa]ssets/Plugins/Editor/JetBrains*
 
 
-#ignoreBuilds
-build/*
 
 #ignore the the testing folder
 testing/*
+/build/
+/build/*
