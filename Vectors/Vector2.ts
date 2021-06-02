@@ -39,6 +39,13 @@ class Vector2 {
         return Math.atan2(this.y, this.x);
     }
 
+    set angle (setAngle){
+        let tempMag = this.magnitude;
+        this.y = tempMag*Math.sin(setAngle);
+        this.x = tempMag*Math.cos(setAngle);
+    }
+
+
     set magnitude(newMagnitude) {
         let angle = this.angle;
         //polar coordinates
