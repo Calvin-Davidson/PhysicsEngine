@@ -1,4 +1,4 @@
-![alt text](https://img.shields.io/static/v1?label=Unity&message=TweenLibrary&color=red)
+![alt text](https://img.shields.io/static/v1?label=TypeScript&message=PhysicsEngine&color=red)
 # Typescript physics engine
 
 this is a physics engine made in typescript, it was first developed in JavaScript and later rewriten in typescript with a cleaner and better code base. 
