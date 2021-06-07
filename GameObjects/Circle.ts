@@ -5,6 +5,8 @@ class Circle implements Drawable, VelocityObject {
     draggable: boolean;
     isDragging: boolean;
     velocity: Vector2;
+    acc: Vector2;
+    collideWithSceneBorders: boolean
 
     constructor(pos: Vector2, radius, color = "black", draggable = false) {
         this.position = pos;
@@ -13,6 +15,8 @@ class Circle implements Drawable, VelocityObject {
         this.draggable = draggable
         this.isDragging = false;
         this.velocity = new Vector2(0, 0);
+        this.acc = new Vector2(0, 0);
+        this.collideWithSceneBorders = false;
 
         if (this.draggable) {
             this.initEvents();
@@ -20,12 +24,15 @@ class Circle implements Drawable, VelocityObject {
     }
 
     public update() {
+        this.velocity.add(this.acc);
         if (this.velocity.x !== 0 && this.velocity.y !== 0) {
-            this.wallCollision(window.innerWidth, window.innerHeight);
+            if (this.collideWithSceneBorders) this.wallCollision(window.innerWidth, window.innerHeight);
 
             this.position.x += this.velocity.x;
             this.position.y += this.velocity.y;
         }
+
+
     }
 
     public draw() {
