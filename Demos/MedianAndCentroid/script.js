@@ -23,7 +23,9 @@ LC = new LinearFunction(2,0, "orange");
 let Points = [A, B, C, D, E, F];
 
 function update() {
-    engine.context.clearRect(0, 0, width, height);
+    engine.context.fillStyle = "rgba(0,0,0,0.8)";
+    engine.context.fillRect(0,0,innerWidth,innerHeight);
+
 
     for (let i = 0; i < Points.length; i++) {
         Points[i].draw();

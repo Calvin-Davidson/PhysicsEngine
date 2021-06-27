@@ -26,8 +26,9 @@ setInterval(update, 1);
 setInterval(update, 1);
 
 function update() {
-    engine.context.fillStyle = "rgba(0,0,0,0.9)"
-    engine.context.fillRect(0,0,width,height);
+    engine.context.fillStyle = "rgba(0,0,0,0.8)";
+    engine.context.fillRect(0,0,innerWidth,innerHeight);
+
     for (let i = 0; i < points.length; i++) {
         points[i].draw(engine.context);
         points[i].update();

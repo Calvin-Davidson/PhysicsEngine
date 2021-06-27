@@ -28,7 +28,8 @@ let Circles = [A, B, C, D, E, F, CenterPoint, OutherCircle];
 let Lines = [ab, bc, ca];
 
 function update() {
-    context.clearRect(0, 0, width, height);
+    engine.context.fillStyle = "rgba(0,0,0,0.8)";
+    engine.context.fillRect(0,0,innerWidth,innerHeight);
 
     ab.slope = getSlope(B.position, A.position);
     ab.intercept = B.position.y - B.position.x * ab.slope
