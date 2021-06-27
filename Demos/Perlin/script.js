@@ -5,6 +5,7 @@ let simplex = new SimplexNoise();
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+console.time("duration");
 for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
         engine.context.beginPath();
@@ -17,3 +18,5 @@ for (let y = 0; y < height; y++) {
         engine.context.fill();
     }
 }
+
+console.timeEnd("duration");
