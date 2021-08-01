@@ -1,18 +1,32 @@
-class polygon {
-    private points : Vector2[];
-    color : string;
-    stokeStyle : string;
+class Polygon implements Drawable, VelocityObject {
 
-    constructor(points, color = "blue") {
+    private points: Vector2[];
+    color: string;
+    stokeStyle: string;
+    position: Vector2;
+    velocity : Vector2;
+    rotation : number;
+
+    constructor(position, points = []) {
         this.points = points;
-        this.color = color;
+        this.position = position;
+        this.color = "#A6E0FF";
         this.stokeStyle = "black"
+        this.rotation = 0;
     }
 
-    draw(context) {
+    draw() {
+        const context = Engine.Instance.context;
+
         context.beginPath();
+        context.save();
+
+        context.translate(this.position.x, this.position.y);
+        context.rotate(this.rotation);
+
         context.fillStyle = this.color;
         context.strokeStyle = this.stokeStyle;
+
         context.moveTo(this.points[0].x, this.points[0].y);
 
         for (let i = 0; i < this.points.length; i++) {
@@ -22,6 +36,7 @@ class polygon {
 
         context.fill();
         context.stroke();
+        context.restore();
         context.closePath();
     }
 

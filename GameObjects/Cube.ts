@@ -6,6 +6,7 @@ class Cube implements Drawable, VelocityObject {
     draggable : boolean;
     isDragging : boolean;
     velocity : Vector2;
+    rotation : number;
 
     constructor(pos : Vector2, width, height, color = "black", draggable = false) {
         this.position = pos;
@@ -16,6 +17,7 @@ class Cube implements Drawable, VelocityObject {
         this.draggable = draggable
         this.isDragging = false;
         this.velocity = new Vector2(0,0);
+        this.rotation = 0;
 
         if (this.draggable) {
             this.initEvents();
@@ -27,17 +29,23 @@ class Cube implements Drawable, VelocityObject {
     }
 
     public draw() {
+        let context = Engine.Instance.context;
         //hier komt de code om een cirkel te tekenen
-        Engine.Instance.context.beginPath();
+        context.beginPath();
+        context.save();
+        context.translate(this.position.x + this.width/2, this.position.y + this.height/2);
+        context.rotate(this.rotation);
 
-        Engine.Instance.context.fillStyle = this.color;
-        Engine.Instance.context.strokeStyle = this.color;
 
-        Engine.Instance.context.fillRect(this.position.x-this.width/2, this.position.y-this.height/2, this.width, this.height);
-        Engine.Instance.context.stroke();
-        Engine.Instance.context.fill();
+        context.fillStyle = this.color;
+        context.strokeStyle = this.color;
 
-        Engine.Instance.context.closePath();
+        context.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+        context.stroke();
+        context.fill();
+
+        context.restore();
+        context.closePath();
     }
 
 

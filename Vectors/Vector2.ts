@@ -31,6 +31,13 @@ class Vector2 {
         return (this.x * vector.x + this.y * vector.y);
     }
 
+    normalize() {
+        let length = this.magnitude;
+        if(length==0||length==-0){length=1;}
+        this.x = this.x / length;
+        this.y = this.y / length;
+    }
+
     get magnitude() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
