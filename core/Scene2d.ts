@@ -47,9 +47,9 @@ class Scene2d {
     }
 
     render() {
-        this.OnRender.Invoke();
-
         this.context.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+        this.OnRender.Invoke();
 
         for (let i = 0; i < this.gameObjects.length; i++) {
             this.gameObjects[i].render();
@@ -74,6 +74,10 @@ class Scene2d {
         }
 
         this.gameObjects.push(gameObject);
+    }
+
+    addGameObjects(...values) {
+        values.forEach(value => this.addGameObject(value));
     }
 
 }

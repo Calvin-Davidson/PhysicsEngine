@@ -1,5 +1,4 @@
-const engine = new Engine();
-const context = engine.context;
+const scene = engine.createScene();
 
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -16,28 +15,24 @@ F = new Circle(new Vector2(300, 300), 5, 'rgb(0,1,0)', false);
 CenterPoint = new Circle(new Vector2(300, 300), 5, 'rgb(5,5,5)', false);
 OutherCircle = new Circle(new Vector2(10, 10), 0, 'rgb(255, 255, 0, 0.3)', false);
 
-ab = new LinearFunction(0, 0, 'rgb(255, 1, 255)');
-bc = new LinearFunction(0, 0, 'rgb(255, 1, 255)');
-ca = new LinearFunction(0, 0, 'rgb(255, 1, 255)');
+ab = new Line();
+bc = new Line();
+ca = new Line();
 
-ha = new LinearFunction(0, 0, 'rgb(255, 1, 255)');
-hb = new LinearFunction(0, 0, 'rgb(255, 1, 255)');
-hc = new LinearFunction(0, 0, 'rgb(255, 1, 255)');
+ha = new Line();
+hb = new Line();
+hc = new Line();
 
-let Circles = [A, B, C, D, E, F, CenterPoint, OutherCircle];
-let Lines = [ab, bc, ca];
+scene.addGameObjects(A, B, C, ab, bc, ca, D, E, F, ha, hb, hc, CenterPoint, OutherCircle);
 
-function update() {
-    engine.context.fillStyle = "rgba(0,0,0,0.8)";
-    engine.context.fillRect(0,0,innerWidth,innerHeight);
-
-    ab.slope = getSlope(B.position, A.position);
+scene.OnUpdate.AddListener(function () {
+    ab.slope = ab.getSlope(B.position, A.position);
     ab.intercept = B.position.y - B.position.x * ab.slope
 
-    bc.slope = getSlope(C.position, B.position);
+    bc.slope = bc.getSlope(C.position, B.position);
     bc.intercept = C.position.y - C.position.x * bc.slope
 
-    ca.slope = getSlope(A.position, C.position);
+    ca.slope = ca.getSlope(A.position, C.position);
     ca.intercept = A.position.y - A.position.x * ca.slope
 
 
@@ -51,28 +46,17 @@ function update() {
 
     ha.slope = -1/ab.slope;
     ha.intercept = D.position.y - D.position.x*ha.slope;
-    ha.draw(context);
+    //ha.draw(context);
     hb.slope = -1/bc.slope;
     hb.intercept = E.position.y - E.position.x*hb.slope;
-    hb.draw(context);
+    //hb.draw(context);
     hc.slope = -1/ca.slope;
     hc.intercept = F.position.y - F.position.x*hc.slope;
-    hc.draw(context);
+    //hc.draw(context);
 
     CenterPoint.position.x = ha.lineIntersection(hb).x;
     CenterPoint.position.y = ha.lineIntersection(hb).y;
 
     OutherCircle.position = CenterPoint.position;
     OutherCircle.radius = OutherCircle.position.distanceTo(A.position);
-
-    // Drawing and updating the draggables
-    Circles.forEach(value => value.draw(context));
-    Circles.forEach(value => value.update());
-    Lines.forEach(value => value.draw(context));
-}
-
-setInterval(update, 1);
-
-function getSlope(pos1, pos2) {
-    return (pos2.y - pos1.y) / (pos2.x - pos1.x);
-}
+});

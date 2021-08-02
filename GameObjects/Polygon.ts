@@ -17,6 +17,7 @@ class polygon implements GameObject2d {
     constructor(position, points = []) {
         this.points = points;
         this.position = position;
+        this.velocity = new Vector2(0,0);
         this.color = "#A6E0FF";
         this.stokeStyle = "black"
 		
