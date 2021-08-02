@@ -1,15 +1,53 @@
-class polygon {
+class polygon implements GameObject2d {
     private points : Vector2[];
     color : string;
     stokeStyle : string;
+    scene : Scene2d;
+    zIndex : number;
+
+    OnLateUpdate: EventSystem;
+    OnRender: EventSystem;
+    OnUpdate: EventSystem;
 
     constructor(points, color = "blue") {
         this.points = points;
         this.color = color;
         this.stokeStyle = "black"
+        this.zIndex = 0;
+
+        this.OnLateUpdate = new EventSystem();
+        this.OnRender = new EventSystem();
+        this.OnUpdate = new EventSystem();
     }
 
-    draw(context) {
+    set Scene(scene : Scene2d) {
+        this.scene = scene;
+    }
+
+    set ZIndex(zIndex : number) {
+        this.zIndex = zIndex;
+    }
+
+    addPoint(vector2) {
+        this.points.push(vector2);
+    }
+
+    addPoints(...values) {
+        values.forEach(value => this.points.push(value));
+    }
+
+    removePoint(vector2) {
+        this.points = this.points.filter(el => el !== vector2);
+    }
+
+    position: Vector2;
+    velocity: Vector2;
+
+    render() {
+        this.OnRender.Invoke();
+
+        const context = this.scene.context;
+
         context.beginPath();
         context.fillStyle = this.color;
         context.strokeStyle = this.stokeStyle;
@@ -25,15 +63,12 @@ class polygon {
         context.closePath();
     }
 
-    addPoint(vector2) {
-        this.points.push(vector2);
+    lateUpdate() {
+        this.OnLateUpdate.Invoke();
     }
 
-    addPoints(...values) {
-        values.forEach(value => this.points.push(value));
-    }
-
-    removePoint(vector2) {
-        this.points = this.points.filter(el => el !== vector2);
+    update() {
+        this.OnUpdate.Invoke();
+        this.position.add(this.velocity);
     }
 }

@@ -1,4 +1,4 @@
-class Cube implements Drawable, VelocityObject {
+class Cube implements Renderable, VelocityObject, GameObject2d {
     position: Vector2;
     width : number;
     height : number;
@@ -6,6 +6,12 @@ class Cube implements Drawable, VelocityObject {
     draggable : boolean;
     isDragging : boolean;
     velocity : Vector2;
+    scene : Scene2d;
+    zIndex : number;
+
+    OnLateUpdate: EventSystem;
+    OnRender: EventSystem;
+    OnUpdate: EventSystem;
 
     constructor(pos : Vector2, width, height, color = "black", draggable = false) {
         this.position = pos;
@@ -16,6 +22,11 @@ class Cube implements Drawable, VelocityObject {
         this.draggable = draggable
         this.isDragging = false;
         this.velocity = new Vector2(0,0);
+        this.zIndex = 0;
+
+        this.OnLateUpdate = new EventSystem();
+        this.OnRender = new EventSystem();
+        this.OnUpdate = new EventSystem();
 
         if (this.draggable) {
             this.initEvents();
@@ -23,21 +34,31 @@ class Cube implements Drawable, VelocityObject {
     }
 
     public update() {
-
+        this.OnUpdate.Invoke();
+        this.position.add(this.velocity);
     }
 
-    public draw() {
+    set Scene(scene : Scene2d) {
+        this.scene = scene;
+    }
+
+    set ZIndex(zIndex : number) {
+        this.zIndex = zIndex;
+    }
+
+    public render() {
+        this.OnRender.Invoke();
         //hier komt de code om een cirkel te tekenen
-        Engine.Instance.context.beginPath();
+        this.scene.context.beginPath();
 
-        Engine.Instance.context.fillStyle = this.color;
-        Engine.Instance.context.strokeStyle = this.color;
+        this.scene.context.fillStyle = this.color;
+        this.scene.context.strokeStyle = this.color;
 
-        Engine.Instance.context.fillRect(this.position.x-this.width/2, this.position.y-this.height/2, this.width, this.height);
-        Engine.Instance.context.stroke();
-        Engine.Instance.context.fill();
+        this.scene.context.fillRect(this.position.x-this.width/2, this.position.y-this.height/2, this.width, this.height);
+        this.scene.context.stroke();
+        this.scene.context.fill();
 
-        Engine.Instance.context.closePath();
+        this.scene.context.closePath();
     }
 
 
@@ -83,15 +104,19 @@ class Cube implements Drawable, VelocityObject {
         });
 
         document.addEventListener("mousedown", function (e) {
-            if (cube.position.x + cube.width/2 < e.pageX) return console.log(1);
-            if (cube.position.x - cube.width/2 > e.pageX) return console.log(2);
-            if (cube.position.y + cube.height/2 < e.pageY) return console.log(3);
-            if (cube.position.y - cube.height/2 > e.pageY) return console.log(4);
+            if (cube.position.x + cube.width/2 < e.pageX) return;
+            if (cube.position.x - cube.width/2 > e.pageX) return;
+            if (cube.position.y + cube.height/2 < e.pageY) return;
+            if (cube.position.y - cube.height/2 > e.pageY) return;
             cube.isDragging = true;
             cube.position.x = e.pageX;
             cube.position.y = e.pageY;
         });
 
+    }
+
+    lateUpdate() {
+        this.OnLateUpdate.Invoke();
     }
 
 }
