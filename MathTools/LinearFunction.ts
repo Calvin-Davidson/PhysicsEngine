@@ -2,11 +2,16 @@ class LinearFunction {
     slope : number;
     color : string;
     intercept : number;
+    scene : Scene2d;
 
     constructor(slope, intercept, color) {
         this.slope = slope;
         this.color = color;
         this.intercept = intercept;
+    }
+
+    set Scene(scene : Scene2d) {
+        this.scene = scene;
     }
 
 
@@ -19,7 +24,7 @@ class LinearFunction {
         context.strokeStyle = this.color;
         context.fillStyle = this.color;
         context.moveTo(0, this.y(0));
-        context.lineTo(Engine.Instance.canvas.width, this.y(Engine.Instance.canvas.width));
+        context.lineTo(this.scene.canvas.width, this.y(this.scene.canvas.width));
         context.stroke();
     }
 

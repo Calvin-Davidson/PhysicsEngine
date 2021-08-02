@@ -1,27 +1,50 @@
 class Engine {
-    canvas: HTMLCanvasElement;
-    context: CanvasRenderingContext2D;
+    scenes: Scene2d[];
+
+    OnUpdate: EventSystem;
+    OnLateUpdate: EventSystem;
 
     constructor() {
-        this.canvas = document.createElement("canvas");
-        this.context = this.canvas.getContext('2d');
+        console.log("Setting up Engine");
 
-        document.body.style.margin = "0px";
-        document.body.style.overflowY = "hidden";
-        this.canvas.style.margin = '0px';
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.scenes = [];
+        this.OnUpdate = new EventSystem();
+        this.OnLateUpdate = new EventSystem();
 
-        document.body.appendChild(this.canvas)
-        Engine.Instance = this;
+        setInterval((me = this) => this.update(), 1);
 
-        console.log(Engine.Instance);
-
-        document.addEventListener("resize", () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-        });
+        console.log("The engine is ready to be used");
     }
 
-    public static Instance : Engine;
+
+    update() {
+        this.OnUpdate.Invoke();
+
+        for (let i = 0; i < this.scenes.length; i++) {
+            this.scenes[i].update();
+        }
+
+        for (let i = 0; i < this.scenes.length; i++) {
+            this.scenes[i].render();
+        }
+
+        for (let i = 0; i < this.scenes.length; i++) {
+            this.scenes[i].lateUpdate();
+        }
+    }
+
+    createScene(zIndex = 0) {
+        for (let i = 0; i < this.scenes.length; i++) {
+            if (this.scenes[i].zIndex >= zIndex) {
+                let scene = new Scene2d(zIndex);
+                this.scenes.splice(i, 0, scene);
+                return scene;
+            }
+        }
+        this.scenes.push(new Scene2d(zIndex));
+        return this.scenes[this.scenes.length - 1];
+    }
 }
+
+
+const engine = new Engine();

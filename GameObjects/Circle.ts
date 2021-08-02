@@ -1,12 +1,17 @@
-class Circle implements Drawable, VelocityObject {
+class Circle implements Renderable, VelocityObject, GameObject2d {
     position: Vector2;
     radius: number;
     color: string;
     draggable: boolean;
     isDragging: boolean;
     velocity: Vector2;
-    acc: Vector2;
     collideWithSceneBorders: boolean
+    scene : Scene2d;
+    zIndex : number;
+
+    OnLateUpdate: EventSystem;
+    OnRender: EventSystem;
+    OnUpdate: EventSystem;
 
     constructor(pos: Vector2, radius, color = "black", draggable = false) {
         this.position = pos;
@@ -15,40 +20,47 @@ class Circle implements Drawable, VelocityObject {
         this.draggable = draggable
         this.isDragging = false;
         this.velocity = new Vector2(0, 0);
-        this.acc = new Vector2(0, 0);
         this.collideWithSceneBorders = false;
+        this.zIndex = 0;
+
+        this.OnLateUpdate = new EventSystem();
+        this.OnRender = new EventSystem();
+        this.OnUpdate = new EventSystem();
 
         if (this.draggable) {
             this.initEvents();
         }
     }
 
+    render() {
+        this.OnRender.Invoke();
+
+        this.scene.context.beginPath();
+
+        this.scene.context.fillStyle = this.color;
+        this.scene.context.strokeStyle = this.color;
+
+        this.scene.context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
+        this.scene.context.stroke();
+        this.scene.context.fill();
+
+
+        this.scene.context.closePath();
+    }
+
+   set Scene(scene : Scene2d) {
+        this.scene = scene;
+   }
+
+    set ZIndex(zIndex : number) {
+        this.zIndex = zIndex;
+    }
+
     public update() {
-        this.velocity.add(this.acc);
-        if (this.velocity.x !== 0 && this.velocity.y !== 0) {
-            if (this.collideWithSceneBorders) this.wallCollision(window.innerWidth, window.innerHeight);
+        this.OnUpdate.Invoke();
 
-            this.position.x += this.velocity.x;
-            this.position.y += this.velocity.y;
-        }
-
-
+        this.position.add(this.velocity);
     }
-
-    public draw() {
-        Engine.Instance.context.beginPath();
-
-        Engine.Instance.context.fillStyle = this.color;
-        Engine.Instance.context.strokeStyle = this.color;
-
-        Engine.Instance.context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
-        Engine.Instance.context.stroke();
-        Engine.Instance.context.fill();
-
-
-        Engine.Instance.context.closePath();
-    }
-
 
     public wallCollision(width, height) {
         if (this.position.x - this.radius <= 0) {
@@ -142,5 +154,9 @@ class Circle implements Drawable, VelocityObject {
             circle2.velocity.x = vFinal2.x;
             circle2.velocity.y = vFinal2.y;
         }
+    }
+
+    lateUpdate() {
+        this.OnLateUpdate.Invoke();
     }
 }

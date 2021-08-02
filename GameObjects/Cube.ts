@@ -1,4 +1,4 @@
-class Cube implements Drawable, VelocityObject {
+class Cube implements Renderable, VelocityObject, GameObject2d {
     position: Vector2;
     width : number;
     height : number;
@@ -7,6 +7,12 @@ class Cube implements Drawable, VelocityObject {
     isDragging : boolean;
     velocity : Vector2;
     rotation : number;
+    scene : Scene2d;
+    zIndex : number;
+
+    OnLateUpdate: EventSystem;
+    OnRender: EventSystem;
+    OnUpdate: EventSystem;
 
     constructor(pos : Vector2, width, height, color = "black", draggable = false) {
         this.position = pos;
@@ -19,16 +25,32 @@ class Cube implements Drawable, VelocityObject {
         this.velocity = new Vector2(0,0);
         this.rotation = 0;
 
+        this.zIndex = 0;
+
+        this.OnLateUpdate = new EventSystem();
+        this.OnRender = new EventSystem();
+        this.OnUpdate = new EventSystem();
+
         if (this.draggable) {
             this.initEvents();
         }
     }
 
     public update() {
-
+        this.OnUpdate.Invoke();
+        this.position.add(this.velocity);
     }
 
-    public draw() {
+    set Scene(scene : Scene2d) {
+        this.scene = scene;
+    }
+
+
+    set ZIndex(zIndex : number) {
+        this.zIndex = zIndex;
+    }
+
+    public render() {
         let context = Engine.Instance.context;
         //hier komt de code om een cirkel te tekenen
         context.beginPath();
@@ -91,15 +113,19 @@ class Cube implements Drawable, VelocityObject {
         });
 
         document.addEventListener("mousedown", function (e) {
-            if (cube.position.x + cube.width/2 < e.pageX) return console.log(1);
-            if (cube.position.x - cube.width/2 > e.pageX) return console.log(2);
-            if (cube.position.y + cube.height/2 < e.pageY) return console.log(3);
-            if (cube.position.y - cube.height/2 > e.pageY) return console.log(4);
+            if (cube.position.x + cube.width/2 < e.pageX) return;
+            if (cube.position.x - cube.width/2 > e.pageX) return;
+            if (cube.position.y + cube.height/2 < e.pageY) return;
+            if (cube.position.y - cube.height/2 > e.pageY) return;
             cube.isDragging = true;
             cube.position.x = e.pageX;
             cube.position.y = e.pageY;
         });
 
+    }
+
+    lateUpdate() {
+        this.OnLateUpdate.Invoke();
     }
 
 }
