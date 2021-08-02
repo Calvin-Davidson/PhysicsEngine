@@ -11,10 +11,7 @@ class Engine {
         this.OnUpdate = new EventSystem();
         this.OnLateUpdate = new EventSystem();
 
-        let me = this;
-        setInterval(function () {
-            me.update();
-        }, 1);
+        setInterval((me = this) => this.update(), 1);
 
         console.log("The engine is ready to be used");
     }
