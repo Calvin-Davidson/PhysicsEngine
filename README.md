@@ -10,9 +10,9 @@ this is a physics engine made in typescript, it was first developed in JavaScrip
 - Circle
 - Cube
 - Polygon
+- Line
 
 **Mathtools**
-- LinearFunction.ts
 - Mathf
 
 **Utilities**
@@ -31,45 +31,42 @@ this is a physics engine made in typescript, it was first developed in JavaScrip
 
 ### Simple bounce ball
 ```js
-const engine = new Engine();
+const scene = engine.createScene();
 
 let ball = new Circle(new Vector2(innerWidth/2, innerHeight/2), 50, "red", false)
-
-
 ball.velocity = new Vector2(10, 10);
-function Update() {
-    requestAnimationFrame(Update);
-    ball.draw();
-    ball.update();
-}
 
-Update();
+ball.OnUpdate.AddListener(function() {
+   ConfineInScreen.ConfineCircleInScreen(ball); 
+});
+
+scene.addGameObject(ball);
 ```
 
 ### Circle collision response
 
 ```js
-const engine = new Engine();
+const scene = engine.createScene();
 
-let ball1 = new Circle(new Vector2(innerWidth/1.5, innerHeight/1.5), 50, "red", false)
-let ball2 = new Circle(new Vector2(innerWidth*0.5, innerHeight*0.5), 50, "red", false)
+let ball1 = new Circle(new Vector2(innerWidth/1.5, innerHeight/1.5), 100, "red", false)
+let ball2 = new Circle(new Vector2(innerWidth*0.5, innerHeight*0.5), 100, "red", false)
 
 ball1.velocity = new Vector2(-5, 5);
 ball2.velocity = new Vector2(-5, -5);
 
-function Update() {
-    requestAnimationFrame(Update);
-    ball1.draw();
-    ball1.update();
+scene.addGameObjects(ball1, ball2);
 
-    ball2.draw();
-    ball2.update();
-
-    if (ball1.position.distanceTo(ball2.position) < ball1.radius + ball2.radius) 
+ball1.OnUpdate.AddListener(function() {
+    ConfineInScreen.ConfineCircleInScreen(ball1)
+    if (ball1.position.distanceTo(ball2.position) < ball1.radius + ball2.radius)
         Circle.resolveCollision(ball1, ball2);
-}
+});
 
-Update();
+ball2.OnUpdate.AddListener(function() {
+    ConfineInScreen.ConfineCircleInScreen(ball2)
+    if (ball1.position.distanceTo(ball2.position) < ball1.radius + ball2.radius)
+        Circle.resolveCollision(ball1, ball2);
+});
 ```
 
 ### Simplex noise example
