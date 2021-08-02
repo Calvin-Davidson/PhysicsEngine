@@ -51,7 +51,7 @@ class Cube implements Renderable, VelocityObject, GameObject2d {
     }
 
     public render() {
-        let context = Engine.Instance.context;
+        let context = this.scene.context;
         //hier komt de code om een cirkel te tekenen
         context.beginPath();
         context.save();

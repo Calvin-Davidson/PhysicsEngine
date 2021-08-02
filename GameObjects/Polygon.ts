@@ -5,17 +5,14 @@ class polygon implements GameObject2d {
     scene : Scene2d;
     zIndex : number;
 
+    position: Vector2;
+    velocity : Vector2;
+    rotation : number;
+
     OnLateUpdate: EventSystem;
     OnRender: EventSystem;
     OnUpdate: EventSystem;
 
-
-    private points: Vector2[];
-    color: string;
-    stokeStyle: string;
-    position: Vector2;
-    velocity : Vector2;
-    rotation : number;
 
     constructor(position, points = []) {
         this.points = points;
@@ -51,9 +48,6 @@ class polygon implements GameObject2d {
     removePoint(vector2) {
         this.points = this.points.filter(el => el !== vector2);
     }
-
-    position: Vector2;
-    velocity: Vector2;
 
     render() {
         this.OnRender.Invoke();
