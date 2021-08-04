@@ -14,6 +14,13 @@ abstract class TweenData {
         this.gameObject = gameObject;
         this.speed = speed;
         this.tweenFunction = methode;
+
+        this.percentage = 0;
+
+
+        this.onComplete = new EventSystem();
+        this.onStart = new EventSystem();
+        this.onUpdate = new EventSystem();
     }
 
     get isFinished() {

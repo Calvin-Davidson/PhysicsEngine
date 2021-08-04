@@ -24,6 +24,8 @@ class Engine {
             this.scenes[i].update();
         }
 
+        TweenController.Instance().UpdateTweens();
+
         for (let i = 0; i < this.scenes.length; i++) {
             this.scenes[i].render();
         }
