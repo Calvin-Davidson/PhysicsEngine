@@ -58,7 +58,7 @@ class polygon implements GameObject2d {
         context.beginPath();
         context.save();
 
-        context.translate(this.position.x, this.position.y);
+        context.translate(this.position.x + this.scene.offset.x, this.position.y + this.scene.offset.y);
         context.rotate(this.rotation);
 
         context.fillStyle = this.color;

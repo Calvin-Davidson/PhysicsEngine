@@ -40,7 +40,7 @@ class Circle implements Renderable, VelocityObject, GameObject2d {
         this.scene.context.fillStyle = this.color;
         this.scene.context.strokeStyle = this.color;
 
-        this.scene.context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
+        this.scene.context.arc(this.position.x + this.scene.offset.x, this.position.y + this.scene.offset.y, this.radius, 0, 2 * Math.PI);
         this.scene.context.stroke();
         this.scene.context.fill();
 

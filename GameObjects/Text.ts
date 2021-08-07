@@ -50,7 +50,7 @@ class Text2d implements GameObject2d {
         //hier komt de code om een cirkel te tekenen
         context.beginPath();
         context.save();
-        context.translate(this.position.x, this.position.y);
+        context.translate(this.position.x + this.scene.offset.x, this.position.y + this.scene.offset.y);
         context.rotate(this.rotation);
 
 

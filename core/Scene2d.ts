@@ -5,6 +5,9 @@ class Scene2d {
     context: CanvasRenderingContext2D;
     zIndex: number;
 
+    offset : Vector2;
+    previousOffset : Vector2;
+
     static : boolean;
 
     OnUpdate: EventSystem;
@@ -15,6 +18,8 @@ class Scene2d {
         this.zIndex = zIndex;
 
         this.gameObjects = [];
+        this.offset = new Vector2(0,0);
+        this.previousOffset = new Vector2(0,0);
 
         this.canvas = document.createElement("canvas");
         this.canvas.style.position = "absolute";
@@ -60,9 +65,7 @@ class Scene2d {
     }
 
     render() {
-        if (this.static) {
-            return;
-        }
+        if (this.static && (this.offset.x === this.previousOffset.x && this.offset.y === this.previousOffset.y)) return;
 
         this.context.clearRect(0,0,window.innerWidth, window.innerHeight);
 
@@ -79,6 +82,9 @@ class Scene2d {
         for (let i = 0; i < this.gameObjects.length; i++) {
             this.gameObjects[i].lateUpdate();
         }
+
+        this.previousOffset.x = this.offset.x;
+        this.previousOffset.y = this.offset.y;
     }
 
     addGameObject(gameObject: GameObject2d) {

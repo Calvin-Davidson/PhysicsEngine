@@ -55,7 +55,7 @@ class Cube implements Renderable, VelocityObject, GameObject2d {
         //hier komt de code om een cirkel te tekenen
         context.beginPath();
         context.save();
-        context.translate(this.position.x + this.width/2, this.position.y + this.height/2);
+        context.translate(this.position.x + this.width/2 + this.scene.offset.x, this.position.y + this.height/2 + this.scene.offset.y);
         context.rotate(this.rotation);
 
 
