@@ -33,6 +33,8 @@ class Engine {
         for (let i = 0; i < this.scenes.length; i++) {
             this.scenes[i].lateUpdate();
         }
+
+        Input.Instance.update();
     }
 
     createScene(zIndex = 0) {
