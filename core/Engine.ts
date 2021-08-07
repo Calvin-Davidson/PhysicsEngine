@@ -11,7 +11,12 @@ class Engine {
         this.OnUpdate = new EventSystem();
         this.OnLateUpdate = new EventSystem();
 
-        setInterval((me = this) => this.update(), 1);
+        const me = this;
+        function UpdateLoop() {
+            me.update();
+            requestAnimationFrame(UpdateLoop);
+        }
+        setTimeout(UpdateLoop, 1);
 
         console.log("The engine is ready to be used");
     }
