@@ -5,6 +5,7 @@ class Scene2d {
     context: CanvasRenderingContext2D;
     zIndex: number;
 
+    static : boolean;
 
     OnUpdate: EventSystem;
     OnRender: EventSystem;
@@ -39,6 +40,8 @@ class Scene2d {
 
 
     update() {
+        this.canvas.style.zIndex = this.zIndex.toString();
+
         this.OnUpdate.Invoke();
 
         for (let i = 0; i < this.gameObjects.length; i++) {
@@ -46,7 +49,21 @@ class Scene2d {
         }
     }
 
+    forceRender() {
+        this.context.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+        this.OnRender.Invoke();
+
+        for (let i = 0; i < this.gameObjects.length; i++) {
+            this.gameObjects[i].render();
+        }
+    }
+
     render() {
+        if (this.static) {
+            return;
+        }
+
         this.context.clearRect(0,0,window.innerWidth, window.innerHeight);
 
         this.OnRender.Invoke();
