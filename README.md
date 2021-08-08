@@ -11,6 +11,8 @@ this is a physics engine made in typescript, it was first developed in JavaScrip
 - Cube
 - Polygon
 - Line
+- sprite
+- text
 
 **Mathtools**
 - Mathf
@@ -26,6 +28,9 @@ this is a physics engine made in typescript, it was first developed in JavaScrip
 **Perlin**
 - ClassicalNoise.ts
 - SimplexNoise.ts
+
+**Tweening**
+- TweenPosition2d.ts
 
 ## Usage
 
@@ -74,6 +79,24 @@ ball2.OnUpdate.AddListener(function() {
 let noise = new SimplexNoise();
 noise.noise(7,1,0) // outputs -0.17641740540869802
 noise.noise(7,2,0) // outputs 0.4323454794146863
+```
+
+
+###Tween example
+```js
+const scene = engine.createScene();
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+let cube = new Cube(new Vector2(150, 150), 100, 100);
+
+cube.rotation = Mathf.DegreeToRadian(45);
+
+scene.addGameObjects(cube);
+
+let tween = new TweenPosition2d(cube, new Vector2(window.innerWidth/2, 150), 0.001, EasingMethode.EaseInBounce)
+TweenController.Instance().ActiveTweens.push(tween)
 ```
 
 ## License
