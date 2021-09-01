@@ -26,20 +26,11 @@ document.addEventListener("mousemove", function(e) {
         canvasOffsetY += deltaY;
 
         canvasOverlay.style.backgroundPosition = canvasOffsetX + "px " + canvasOffsetY + "px";
+        engineScene.offset = new Vector2(canvasOffsetX, canvasOffsetY);
     }
     prevX = e.pageX;
     prevY = e.pageY;
 })
 
 
-document.addEventListener("resize", () => maximizeCanvas());
-
-
 document.addEventListener('contextmenu', event => event.preventDefault());
-
-
-function maximizeCanvas() {
-    engineCanvas.width = window.innerWidth;
-    engineCanvas.height = window.innerHeight
-}
-setTimeout(maximizeCanvas, 10);

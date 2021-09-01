@@ -1,6 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 #Hierarchy {
     width: 15vw;
@@ -28,12 +29,16 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .InspectorComponent {
-    width: calc(100% - 0.5rem);
+    width: 100%;
     padding-bottom: 2rem;
 }
 
 .ComponentSettings {
     padding-left: .5rem;
+}
+
+.ComponentVariableName {
+    margin-bottom: .25rem;
 }
 
 .ComponentName {

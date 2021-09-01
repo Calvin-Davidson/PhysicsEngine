@@ -1,5 +1,5 @@
 const canvasOverlay = document.getElementById("CanvasOverlay");
-const engineCanvas = document.getElementById("engineCanvas");
-const context = engineCanvas.getContext('2d');
+const engineScene = engine.createScene(-1);
+engineScene.canvas.id = "engineCanvas";
 
 const moveSpeed = 0.2;
