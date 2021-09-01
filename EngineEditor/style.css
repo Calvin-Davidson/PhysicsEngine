@@ -1,0 +1,182 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+#Hierarchy {
+    width: 15vw;
+    height: 80vh;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+#Inspector {
+    right: 0;
+    height: 100%;
+    width: 20vw;
+    overflow-y: scroll;
+}
+
+#Inspector::-webkit-scrollbar {
+    display: none;
+}
+
+#Inspector .InspectorList {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.InspectorComponent {
+    width: calc(100% - 0.5rem);
+    padding-bottom: 2rem;
+}
+
+.ComponentSettings {
+    padding-left: .5rem;
+}
+
+.ComponentName {
+    padding-left: 0.5rem;
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    background-color: #616161;
+}
+
+.InspectorList li:nth-child(odd) {
+    background-color: #2d2d2d;
+}
+.InspectorList li:nth-child(even) {
+    background-color: #343434;
+}
+
+#ProjectFolder {
+    bottom: 0;
+    width: 80vw;
+    height: 20vh;
+}
+
+#ProjectFolder .Items {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    height: 83%;
+    gap: 1rem;
+    padding-left: .5rem;
+}
+
+#ProjectFolder .Items div {
+    width: 5rem;
+    overflow: hidden;
+    height: 5rem;
+    padding: .25rem;
+    z-index: 2342324;
+}
+
+#ProjectFolder .Items div:hover {
+    background-color: #7f7f7f;
+}
+
+#ProjectFolder .Items div img {
+    width: 75%;
+    height: 75%;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+#ProjectFolder .Items div p {
+    margin: 0;
+}
+
+#ProjectFolder .Items::-webkit-scrollbar {
+    display: none;
+}
+
+
+#Hierarchy, #Inspector, #ProjectFolder {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    border: 1px solid #000000;
+    background-color: #262626;
+    position: absolute;
+}
+#QuickMenu {
+    clip-path: polygon(5% 20%, 95% 20%, 100% 0, 0 0);
+    background-color: black;
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 50vw;
+    height: 20vh;
+    z-index: 10;
+}
+
+#engineCanvas {
+    position: absolute;
+    margin: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-color: #a5a5a5;
+    opacity: 0.2;
+}
+
+#CanvasOverlay {
+    position: absolute;
+    right: 0;
+    width: 65vw;
+    height: 80vh;
+    transform: translate(-30.75%, 0%);
+    opacity: 0.2;
+
+    background-image: url("Images/Square.png");
+    background-repeat: repeat;
+}
+
+.HierarchyList {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    padding-left: 0;
+    overflow-y: scroll;
+    height: 94%;
+}
+
+.HierarchyList li {
+    padding-left: .5rem;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #000000;
+}
+
+.HierarchyList::-webkit-scrollbar {
+    display: none;
+}
+
+.HierarchyList li p {
+    margin: 0.3rem 0 0.3rem 0;
+}
+
+.HierarchyList li:nth-child(odd) {
+    background-color: #2d2d2d;
+}
+.HierarchyList li:nth-child(even) {
+    background-color: #343434;
+}
+
+.HierarchyList li:hover {
+    background-color: #7f7f7f;
+}
+
+.Unselectable {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
