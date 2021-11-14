@@ -5,20 +5,24 @@ const navbarOffset = document.getElementsByClassName("navbar")[0].offsetHeight;
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-const Player = new Circle(new Vector2(50, 50), 25);
+const Player = new Circle(new Vector2(50, 50), 50);
 const PlayerArrayPosition = new Vector2(4, 4);
 
 const obstacles = [];
 
 let ShowGrid = false;
+let moveTimeout = 0;
 let path;
 
 scene.addGameObjects(Player);
 
-const pathFinding = new PathFinding.AstarPath(Player, Mathf.Ceil(width / (Player.radius)), Mathf.Ceil(height / (Player.radius)), width, height, obstacles);
+const pathFinding = new PathFinding.AstarPath(Player, Mathf.Ceil(width / (Player.radius/2)), Mathf.Ceil(height / (Player.radius/2)), width, height, obstacles);
 
+let moveTimer = 0;
 scene.OnUpdate.AddListener(() => {
     if (path == null || path.length === 0) return;
+    if (moveTimer > 0) return moveTimer -= 1;
+    moveTimer = moveTimeout;
     Player.position = path[path.length-1].position;
     PlayerArrayPosition.x = path[path.length-1].arrayPosition.x;
     PlayerArrayPosition.y = path[path.length-1].arrayPosition.y;

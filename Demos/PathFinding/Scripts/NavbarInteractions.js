@@ -1,3 +1,7 @@
+document.getElementById("AddSmallCircleObject").addEventListener("mousedown", function (e) {
+    addCircle(width/2, height/2, Math.min(width, height) * 0.1);
+})
+
 document.getElementById("AddCircleObject").addEventListener("mousedown", function (e) {
     addCircle(width/2, height/2, Math.min(width, height) * 0.2);
 })
@@ -8,6 +12,11 @@ document.getElementById("AddBigCircleObject").addEventListener("mousedown", func
 
 document.getElementById("AddHugeCircleObject").addEventListener("mousedown", function (e) {
     addCircle(width/2, height/2, Math.min(width, height) * 0.4);
+})
+
+document.getElementById("AddSmallCubeObject").addEventListener("mousedown", function (e) {
+    let size = Math.min(width, height) * 0.2;
+    addCube(width/2-size/2, height/2-size/2, size, size);
 })
 
 document.getElementById("AddCubeObject").addEventListener("mousedown", function (e) {
@@ -50,13 +59,13 @@ document.getElementById("ShowAndHideGrid").addEventListener("mousedown", functio
 
 
 document.getElementById("MovementDelay1").addEventListener("mousedown", function (e) {
-    moveDelay = 0;
+    moveTimeout = 0;
 });
 
 document.getElementById("MovementDelay2").addEventListener("mousedown", function (e) {
-    moveDelay = 2;
+    moveTimeout = 2;
 });
 
 document.getElementById("MovementDelay3").addEventListener("mousedown", function (e) {
-    moveDelay = 4;
+    moveTimeout = 4;
 });
