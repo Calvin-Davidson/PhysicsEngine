@@ -21,6 +21,9 @@ module PathFinding {
         }
 
         public GetPath(currentX, currentY, targetX, targetY) {
+            function heuristic(e, t) {
+                return Math.abs(e.x - t.x);
+            }
             const path: CellData[] = [];
             const openSet: CellData[] = [];
             const closedSet: CellData[] = [];
@@ -40,13 +43,12 @@ module PathFinding {
 
                 current = openSet[winner];
 
-
                 if (current === end) {
                     foundPath = true;
                     break;
                 }
 
-                for (let i = openSet.length - 1; i >= 0; i--) openSet[i] === current && openSet.splice(i, 1)
+                openSet.splice(openSet.indexOf(current), 1)
                 closedSet.push(current);
 
                 let neighbors = current.neighbors;
@@ -54,7 +56,7 @@ module PathFinding {
                     let neighbor = neighbors[i];
 
                     if (!closedSet.includes(neighbor) && neighbor.isValid === true) {
-                        let tempG = current.g + Math.pow(neighbor.position.x, current.position.x);
+                        let tempG = heuristic(neighbor, current);
                         let newPath = false;
 
                         if (openSet.includes(neighbor)) {
@@ -69,7 +71,7 @@ module PathFinding {
                         }
 
                         if (newPath) {
-                            neighbor.h = Math.pow(neighbor.position.x, end.position.x);
+                            neighbor.h = heuristic(neighbor, end)
                             neighbor.f = neighbor.g + neighbor.h;
                             neighbor.previous = current;
                         }
@@ -123,7 +125,7 @@ module PathFinding {
                                 if (CircleCollider2d.CircleCollision(this.blockingObjects[i], new Circle(new Vector2(cellData.position.x, cellData.position.y), this.ai.radius))) cellData.isValid = false;
                             }
                             if (this.blockingObjects[i] instanceof Cube) {
-                                if (CubeCollider2d.CubePointCollision(this.blockingObjects[i], new Vector2(cellData.position.x, cellData.position.y))) cellData.isValid = false;
+                                if (CubeCollider2d.CubeCircleCollision(this.blockingObjects[i], new Circle(new Vector2(cellData.position.x, cellData.position.y), this.ai.radius))) cellData.isValid = false;
                             }
                         }
                     }
@@ -185,17 +187,17 @@ module PathFinding {
             let x = this.position.x;
             let y = this.position.y;
 
-            if (arrayX + 1 < rows && Cells[arrayY][arrayX + 1].hasCollsion === false) this.neighbors.push(Cells[arrayY][arrayX + 1]);
-            if (x > 0 && Cells[arrayY][arrayX - 1].hasCollsion === false) this.neighbors.push(Cells[arrayY][arrayX - 1]);
-            if (arrayY + 1 < columns && Cells[arrayY + 1][arrayX].hasCollsion === false) this.neighbors.push(Cells[arrayY + 1][arrayX]);
-            if (arrayY > 0 && Cells[arrayY - 1][arrayX].hasCollsion === false) this.neighbors.push(Cells[arrayY - 1][arrayX]);
+            if (arrayX + 1 < rows && Cells[arrayY][arrayX + 1].isValid) this.neighbors.push(Cells[arrayY][arrayX + 1]);
+            if (x > 0 && Cells[arrayY][arrayX - 1].isValid) this.neighbors.push(Cells[arrayY][arrayX - 1]);
+            if (arrayY + 1 < columns && Cells[arrayY + 1][arrayX].isValid) this.neighbors.push(Cells[arrayY + 1][arrayX]);
+            if (arrayY > 0 && Cells[arrayY - 1][arrayX].isValid) this.neighbors.push(Cells[arrayY - 1][arrayX]);
 
             // diagonals
-            if (arrayX + 1 < rows && arrayY + 1 < columns && !Cells[arrayY + 1][arrayX + 1].hasCollsion) this.neighbors.push(Cells[arrayY + 1][arrayX + 1]);
-            if (arrayX + 1 < rows && arrayY > 0 && !Cells[arrayY - 1][arrayX + 1].hasCollsion) this.neighbors.push(Cells[arrayY - 1][arrayX + 1]);
+            if (arrayX + 1 < rows && arrayY + 1 < columns && Cells[arrayY + 1][arrayX + 1].isValid) this.neighbors.push(Cells[arrayY + 1][arrayX + 1]);
+            if (arrayX + 1 < rows && arrayY > 0 && Cells[arrayY - 1][arrayX + 1].isValid) this.neighbors.push(Cells[arrayY - 1][arrayX + 1]);
 
-            if (arrayX > 0 && arrayY + 1 < columns && !Cells[arrayY + 1][arrayX - 1].hasCollsion) this.neighbors.push(Cells[arrayY + 1][arrayX - 1]);
-            if (arrayX > 0 && arrayY > 0 && !Cells[arrayY - 1][arrayX - 1].hasCollsion) this.neighbors.push(Cells[arrayY - 1][arrayX - 1]);
+            if (arrayX > 0 && arrayY + 1 < columns && Cells[arrayY + 1][arrayX - 1].isValid) this.neighbors.push(Cells[arrayY + 1][arrayX - 1]);
+            if (arrayX > 0 && arrayY > 0 && Cells[arrayY - 1][arrayX - 1].isValid) this.neighbors.push(Cells[arrayY - 1][arrayX - 1]);
         }
 
         show(context) {
