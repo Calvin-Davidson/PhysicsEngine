@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
+    "lib": ["ES6", "ES2020", "DOM"],
     "removeComments": true,
     "preserveConstEnums": true,
     "outFile": "./build/build.js",
