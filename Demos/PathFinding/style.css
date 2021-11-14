@@ -81,3 +81,9 @@ navbar-nav > li > .dropdown-menu {
     margin-top: 9px;
     border-radius: 4px;
 }
+
+#navbarDiv {
+    position: fixed;
+    z-index: 100000;
+    width: 100%;
+}

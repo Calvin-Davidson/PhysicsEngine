@@ -102,8 +102,8 @@ class Circle implements Renderable, VelocityObject, GameObject2d {
 
         document.addEventListener("mousemove", function (e) {
             if (!circle.isDragging || !circle.draggable) return;
-            circle.position.x = e.pageX;
-            circle.position.y = e.pageY;
+            circle.position.x += e.movementX;
+            circle.position.y += e.movementY;
         });
 
         document.addEventListener("mousedown", function (e) {

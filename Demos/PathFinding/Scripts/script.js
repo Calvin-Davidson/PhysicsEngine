@@ -3,7 +3,7 @@ const obstaclesScene = engine.createScene(1);
 
 const navbarOffset = document.getElementsByClassName("navbar")[0].offsetHeight;
 const width = window.innerWidth;
-const height = window.innerHeight - navbarOffset;
+const height = window.innerHeight;
 
 const Player = new Circle(new Vector2(50, 50), 25);
 const PlayerArrayPosition = new Vector2(4, 4);
@@ -37,7 +37,7 @@ scene.OnLateUpdate.AddListener(() => {
 })
 
 obstaclesScene.canvas.addEventListener("mousedown", function (e) {
-    path = pathFinding.GetPath(PlayerArrayPosition.x, PlayerArrayPosition.y, getClosestCellFrom(e.pageX, e.pageY).arrayPosition.x, getClosestCellFrom(e.pageX, e.pageY).arrayPosition.y);
+    path = pathFinding.GetPath(PlayerArrayPosition.x, PlayerArrayPosition.y, getClosestCellFrom(e.clientX, e.clientY).arrayPosition.x, getClosestCellFrom(e.clientX, e.clientY).arrayPosition.y);
     if (path === undefined) return console.log("NoPath found");
 })
 
@@ -53,7 +53,7 @@ function getClosestCellFrom(dx, dy) {
             let cell = pathFinding.cells[y][x];
 
             let pos1 = (dx) - cell.position.x;
-            let pos2 = (dy - navbarOffset) - cell.position.y;
+            let pos2 = (dy) - cell.position.y;
 
             let distanceTo = Math.sqrt(pos1 * pos1 + pos2 * pos2);
             if (distanceTo < currentClosestDist) {
@@ -66,12 +66,12 @@ function getClosestCellFrom(dx, dy) {
 }
 
 function addCube(x, y, w, h) {
-    let cube = new Cube(new Vector2(x,y), w, h, "black");
+    let cube = new Cube(new Vector2(x,y), w, h, "black", true);
     addObstacle(cube);
 }
 
 function addCircle(x, y, r) {
-    let circle = new Circle(new Vector2(x, y), r, "black");
+    let circle = new Circle(new Vector2(x, y), r, "black", true);
     addObstacle(circle)
 }
 
