@@ -1,12 +1,12 @@
 class ConfineInScreen {
     static ConfineCubeInScreen(cube: Cube) {
-        if (cube.position.x - cube.width / 2 <= 0)
+        if (cube.position.x + cube.width/2 - cube.width / 2 <= 0)
             cube.velocity.x = Math.abs(cube.velocity.x)
-        if (cube.position.x + cube.width / 2 >= window.innerWidth)
+        if (cube.position.x + cube.width/2 + cube.width / 2 >= window.innerWidth)
             cube.velocity.x = -Math.abs(cube.velocity.x);
-        if (cube.position.y - cube.height / 2 <= 0)
+        if (cube.position.y + cube.height/2 - cube.height / 2 <= 0)
             cube.velocity.y = Math.abs(cube.velocity.y);
-        if (cube.position.y + cube.height / 2 >= window.innerHeight)
+        if (cube.position.y + cube.height/2 + cube.height / 2 >= window.innerHeight)
             cube.velocity.y = -Math.abs(cube.velocity.y);
     }
 

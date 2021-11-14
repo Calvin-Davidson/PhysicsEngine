@@ -32,4 +32,8 @@ class CircleCollider2d {
         let distance = new Vector2(unrotatedCircleX, unrotatedCircleY).distanceTo(new Vector2(closestX, closestY));
         return (distance < Circle.radius)
     }
+
+    static CirclePointCollision(Circle : Circle, position : Vector2) {
+        return (Circle.position.distanceTo(position) < Circle.radius);
+    }
 }
