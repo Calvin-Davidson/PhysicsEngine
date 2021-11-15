@@ -24,6 +24,7 @@ module PathFinding {
             function heuristic(e, t) {
                 return Math.abs(e.x - t.x);
             }
+
             const path: CellData[] = [];
             const openSet: CellData[] = [];
             const closedSet: CellData[] = [];
@@ -80,7 +81,6 @@ module PathFinding {
                     current.neighbors[i] = neighbor;
                 }
             }
-            console.log("did i find a path?" + foundPath);
             openSet.splice(0, openSet.length)
             closedSet.splice(0, closedSet.length)
 
