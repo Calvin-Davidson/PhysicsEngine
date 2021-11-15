@@ -111,7 +111,6 @@ class Cube implements Renderable, VelocityObject, GameObject2d {
             if (!cube.isDragging || !cube.draggable) return;
             cube.position.x += e.movementX;
             cube.position.y += e.movementY;
-            console.log(e.movementX)
         });
 
         document.addEventListener("mousedown", function (e) {
