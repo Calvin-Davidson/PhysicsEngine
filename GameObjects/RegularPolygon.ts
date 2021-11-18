@@ -9,6 +9,8 @@ class RegularPolygon implements Renderable, VelocityObject, GameObject2d {
     radius: number;
     points: number;
     rotation: number;
+    color : string;
+    strokeColor : string;
 
     constructor(position: Vector2, radius: number, points: number) {
         this.position = position;
@@ -19,6 +21,9 @@ class RegularPolygon implements Renderable, VelocityObject, GameObject2d {
         this.OnLateUpdate = new EventSystem();
         this.OnUpdate = new EventSystem();
         this.rotation = 0;
+
+        this.color = "black";
+        this.strokeColor = "red";
     }
 
     lateUpdate() {
@@ -48,9 +53,10 @@ class RegularPolygon implements Renderable, VelocityObject, GameObject2d {
         this.scene.context.lineTo(newX, newY);
 
 
+        this.scene.context.fillStyle = this.color;
         this.scene.context.fill();
         this.scene.context.lineWidth = 10;
-        this.scene.context.strokeStyle = "red";
+        this.scene.context.strokeStyle = this.strokeColor;
         this.scene.context.stroke();
         this.scene.context.restore();
         this.scene.context.closePath();

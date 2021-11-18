@@ -17,5 +17,9 @@ shape2.OnUpdate.AddListener(() => {
 scene.addGameObjects(shape, shape2);
 
 scene.OnUpdate.AddListener(() => {
-    console.log(RegularPolygonCollider2d.RegularPolygonCollision(shape2, shape));
+    if (RegularPolygonCollider2d.RegularPolygonCollision(shape2, shape)) {
+        shape2.color = "red";
+    } else {
+        shape2.color = "green";
+    }
 });
