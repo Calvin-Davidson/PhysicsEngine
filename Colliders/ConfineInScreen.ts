@@ -20,4 +20,8 @@ class ConfineInScreen {
         if (circle.position.y + circle.radius >= window.innerHeight)
             circle.velocity.y = -Math.abs(circle.velocity.y);
     }
+
+    static ConfineRegularPolygonInScreen(poly : RegularPolygon) {
+        throw new Error("ConfineRegularPolygonInScreen" + " is not implemented")
+    }
 }

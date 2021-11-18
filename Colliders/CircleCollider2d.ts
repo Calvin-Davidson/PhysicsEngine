@@ -32,4 +32,8 @@ class CircleCollider2d {
         let distance = new Vector2(unrotatedCircleX, unrotatedCircleY).distanceTo(new Vector2(closestX, closestY));
         return (distance < Circle.radius)
     }
+
+    static CircleRegularPolygonCollision(circle : Circle, poly : RegularPolygon) {
+        RegularPolygonCollider2d.RegularPolygonCircleCollision(poly, circle);
+    }
 }

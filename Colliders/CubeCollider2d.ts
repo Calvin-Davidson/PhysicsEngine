@@ -6,5 +6,9 @@ class CubeCollider2d {
     static CubeCircleCollision(Cube : Cube, Circle : Circle) {
         CircleCollider2d.CircleCubeCollision(Circle, Cube);
     }
+
+    static CubeRegularPolygonCollision(cube : Cube, poly : RegularPolygon) {
+        RegularPolygonCollider2d.RegularPolygonCubeCollision(poly, cube);
+    }
 }
 
