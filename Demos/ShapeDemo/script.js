@@ -3,20 +3,19 @@ const scene = engine.createScene();
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-let shape = new RegularPolygon(new Vector2(width/2, height/2), Mathf.Min(width, height) * .4, 5);
+const speed = 1;
 
-let delay = 0;
-let forward = false;
-scene.OnUpdate.AddListener(() => {
-    shape.rotation += 0.01;
-    delay += 1;
-    if (delay < 15) return;
-    delay = 0;
+let shape = new RegularPolygon(new Vector2(width/2, height/2), Mathf.Min(width, height) * .1, 5);
+let shape2 = new RegularPolygon(new Vector2(width/2, height/2), Mathf.Min(width, height) * .1, 5);
 
-    if (forward) shape.points += 1
-    else shape.points -= 1;
+shape2.velocity = new Vector2(speed, 0);
 
-    if (shape.points <= 2 || shape.points >= 20) forward = !forward;
+shape2.OnUpdate.AddListener(() => {
+    ConfineInScreen.ConfineRegularPolygonInScreen(shape2);
 })
 
-scene.addGameObjects(shape);
+scene.addGameObjects(shape, shape2);
+
+scene.OnUpdate.AddListener(() => {
+    console.log(RegularPolygonCollider2d.RegularPolygonCollision(shape2, shape));
+});

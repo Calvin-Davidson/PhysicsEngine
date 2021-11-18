@@ -8,7 +8,7 @@ class RegularPolygon implements Renderable, VelocityObject, GameObject2d {
     zIndex: number;
     radius: number;
     points: number;
-    rotation : number;
+    rotation: number;
 
     constructor(position: Vector2, radius: number, points: number) {
         this.position = position;
@@ -61,4 +61,40 @@ class RegularPolygon implements Renderable, VelocityObject, GameObject2d {
         this.position.add(this.velocity);
     }
 
+
+    public GetEdges(): Vector2[] {
+        let edges: Vector2[] = [];
+
+        let p1: Vector2;
+        let p2: Vector2;
+        let points = this.GetPoints();
+        for (let i = 0; i < points.length; i++) {
+            p1 = points[i];
+            if (i + 1 >= points.length) {
+                p2 = points[0];
+            } else {
+                p2 = points[i + 1];
+            }
+            let diffVector = new Vector2(0,0);
+            diffVector.differenceVector(p2, p1);
+            edges.push(diffVector);
+        }
+        return edges;
+    }
+
+    GetPoints(): Vector2[] {
+        let result: Vector2[] = [];
+
+        let slice = 2 * Math.PI / this.points;
+        for (let i = 0; i < this.points; i++) {
+            let angle = slice * i;
+
+            let newX = (this.position.x + this.radius * Math.cos(angle - Mathf.DegreeToRadian(90)));
+            let newY = (this.position.y + this.radius * Math.sin(angle - Mathf.DegreeToRadian(90)));
+
+            result.push(new Vector2(newX, newY));
+        }
+
+        return result;
+    }
 }

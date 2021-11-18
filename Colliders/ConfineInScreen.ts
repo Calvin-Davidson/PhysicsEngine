@@ -22,6 +22,15 @@ class ConfineInScreen {
     }
 
     static ConfineRegularPolygonInScreen(poly : RegularPolygon) {
-        throw new Error("ConfineRegularPolygonInScreen" + " is not implemented")
+        poly.GetPoints().forEach(value => {
+            if (value.x <= 0)
+                poly.velocity.x = Math.abs(poly.velocity.x);
+            if (value.x >= window.innerWidth)
+                poly.velocity.x = -Math.abs(poly.velocity.x);
+            if (value.y <= 0)
+                poly.velocity.y = Math.abs(poly.velocity.y);
+            if (value.y >= window.innerHeight)
+                poly.velocity.y = -Math.abs(poly.velocity.y);
+        })
     }
 }
